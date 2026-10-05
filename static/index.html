@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24x7 Support Staffing Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: full-bleed navy hero carrying the headline numbers, slim sticky tabs, then compact sections of panels and tiles */
+:root {
+  --bg: #f3f2f0; --panel: #ffffff; --fg: #111111; --muted: #5c5a57; --line: #e4e1dc;
+  --accent: #f97316; --accent-text: #c2410c; --accent-soft: #ffedd9; --warn: #b42318; --warn-soft: #fde8e6;
+  --onsite: #f97316; --offshore: #111111; --w-bot: #f1efec;
+  --hero1: #000000; --hero2: #1c1a18;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0b0b; --panel: #151515; --fg: #f5f5f4; --muted: #a39e98; --line: #2a2724;
+    --accent: #fb923c; --accent-text: #fb923c; --accent-soft: #2b1a0c; --warn: #f87171; --warn-soft: #331616;
+    --onsite: #fb923c; --offshore: #8a8580; --w-bot: #1f1d1b; --hero1: #000000; --hero2: #141414; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0b0b; --panel: #151515; --fg: #f5f5f4; --muted: #a39e98; --line: #2a2724;
+  --accent: #fb923c; --accent-text: #fb923c; --accent-soft: #2b1a0c; --warn: #f87171; --warn-soft: #331616;
+  --onsite: #fb923c; --offshore: #8a8580; --w-bot: #1f1d1b; --hero1: #000000; --hero2: #141414; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.55; }
+h1, h2, h3 { margin: 0; line-height: 1.12; text-wrap: balance; }
+h2 { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.02em; }
+h3 { font-size: 1rem; font-weight: 700; letter-spacing: -0.005em; }
+p { margin: 0; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+.label { font-family: var(--f-data); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); font-weight: 500; }
+.note { color: var(--muted); font-size: 0.85rem; }
+a { color: var(--accent-text); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+.hero { background: radial-gradient(circle at 88% -10%, rgba(249,115,22,.42), transparent 48%), linear-gradient(135deg, var(--hero1), var(--hero2)); color: #fff; }
+.hero-in { max-width: 1080px; margin-inline: auto; padding: 44px 16px 36px; display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font-family: var(--f-data); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: #fdba74; }
+.hero h1 { font-size: clamp(2rem, 5.4vw, 3.4rem); font-weight: 800; letter-spacing: -0.03em; }
+.hero-sub { color: #cfc9c2; font-size: 0.98rem; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 18px; }
+.kpi { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.kpi.hot { background: rgba(249,115,22,.24); border-color: #fb923c; }
+.kpi .label { color: #fdba74; }
+.kpi .v { font-size: 2.3rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.kpi .s { color: #cfc9c2; font-size: 0.78rem; }
+
+nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--panel); border-bottom: 1px solid var(--line); }
+nav.tabs .in { max-width: 1080px; margin-inline: auto; padding: 6px 16px; display: flex; gap: 4px; overflow-x: auto; }
+nav.tabs a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 0.84rem; padding: 7px 12px; border-radius: 8px; white-space: nowrap; }
+nav.tabs a:hover { color: var(--fg); background: var(--accent-soft); }
+
+.wrap { max-width: 1080px; margin-inline: auto; padding: 36px 16px 80px; display: flex; flex-direction: column; gap: 52px; }
+section { display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 64px; }
+.sec-head { display: flex; flex-direction: column; gap: 6px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 290px) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 780px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.fields { display: flex; flex-direction: column; gap: 9px; margin-top: 12px; }
+.field { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.86rem; color: var(--muted); font-weight: 500; }
+.field input { width: 96px; font-family: var(--f-data); font-size: 0.88rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); text-align: right; }
+.btn { font-family: var(--f-body); font-size: 0.84rem; font-weight: 600; padding: 8px 13px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.on { background: var(--accent); color: #111; border-color: var(--accent); }
+.badge { display: inline-block; font-family: var(--f-data); font-size: 0.72rem; padding: 3px 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-text); }
+.badge.warn { background: var(--warn-soft); color: var(--warn); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+th, td { text-align: right; padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-family: var(--f-data); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+td.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+tr.total td { font-weight: 700; border-bottom: none; background: var(--accent-soft); }
+.bar { display: flex; height: 14px; border-radius: 99px; overflow: hidden; background: var(--line); }
+.bar span { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+.design { margin-top: 12px; font-size: 0.9rem; }
+
+.strip .ticks { display: grid; grid-template-columns: repeat(24, 1fr); font-family: var(--f-data); font-size: 0.62rem; color: var(--muted); }
+.strip .ticks span { border-left: 1px solid var(--line); padding-left: 2px; height: 16px; }
+.lane { position: relative; height: 34px; margin-top: 8px; background: repeating-linear-gradient(to right, var(--line) 0, var(--line) 1px, transparent 1px, transparent calc(100% / 24)); border-radius: 6px; }
+.seg { position: absolute; top: 3px; bottom: 3px; border-radius: 6px; background: #1c1a18; border: 1px solid rgba(255,255,255,.22); color: #fff; font-size: 0.74rem; display: flex; align-items: center; padding-inline: 9px; white-space: nowrap; overflow: hidden; font-family: var(--f-data); }
+.seg.s2 { background: #f97316; color: #111; }
+.seg.s3 { background: #9a3412; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.stat .big { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .cap { color: var(--muted); font-size: 0.82rem; }
+
+svg text { fill: var(--muted); font-family: var(--f-data); font-size: 11px; }
+svg .val { fill: var(--fg); font-weight: 500; }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+svg .b-on { fill: var(--onsite); }
+svg .b-off { fill: var(--offshore); }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+ul.clean { margin: 12px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+ul.clean li { padding-left: 16px; position: relative; font-size: 0.9rem; }
+ul.clean li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 2px; background: var(--accent); }
+ul.warn li::before { background: var(--warn); }
+.risks { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.risk { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.risk b { font-size: 0.92rem; }
+.risk span { color: var(--muted); font-size: 0.82rem; }
+details summary { cursor: pointer; font-weight: 600; font-size: 0.86rem; color: var(--accent-text); }
+footer { color: var(--muted); font-size: 0.78rem; text-align: center; padding-bottom: 8px; }
+
+.ai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+textarea.box { width: 100%; min-height: 120px; font-family: var(--f-body); font-size: 0.86rem; line-height: 1.5; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); resize: vertical; }
+input.txt { flex: 1 1 200px; min-width: 0; font-family: var(--f-body); font-size: 0.9rem; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
+.btn.primary { background: var(--accent); color: #111; border-color: var(--accent); }
+.btn:disabled { opacity: .55; cursor: wait; }
+.issue { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; background: var(--bg); }
+.issue .t { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; font-weight: 600; }
+.sev { font-family: var(--f-data); font-size: 0.68rem; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 99px; }
+.sev.high { background: var(--warn); color: var(--bg); }
+.sev.medium { background: var(--warn-soft); color: var(--warn); }
+.sev.low { background: var(--accent-soft); color: var(--accent-text); }
+.issue .fix { color: var(--muted); font-size: 0.85rem; }
+.chip { font-family: var(--f-data); font-size: 0.7rem; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+.status { font-family: var(--f-data); font-size: 0.72rem; }
+.summary-text { white-space: pre-wrap; font-size: 0.92rem; max-width: 72ch; }
+[hidden] { display: none !important; }
+.fab { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 30; width: 62px; height: 62px; padding: 0; border-radius: 50%; border: 3px solid #f97316; background: linear-gradient(135deg, #26211c, #000); cursor: pointer; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0, 0, 0, .45); }
+.fab svg { width: 38px; height: 38px; }
+.fab .dot { position: absolute; right: 1px; bottom: 1px; width: 13px; height: 13px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+.fab:hover { filter: brightness(1.1); }
+.fab-panel { position: fixed; right: 16px; bottom: calc(92px + env(safe-area-inset-bottom, 0px)); z-index: 30; width: min(400px, calc(100vw - 24px)); height: min(610px, calc(100vh - 120px)); display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 18px 50px rgba(5, 15, 40, .38); overflow: hidden; }
+.fab-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: linear-gradient(120deg, #000, #26211c); color: #fff; flex: none; }
+.fab-av { width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #fdba74, #f97316); border: 2px solid rgba(255, 255, 255, .55); }
+.fab-av svg { width: 30px; height: 30px; }
+.fab-title { font-weight: 600; font-size: 1rem; line-height: 1.25; }
+.fab-sub { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: #fdba74; }
+.live { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; }
+.fab-x { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .16); color: #fff; font-size: 1.35rem; line-height: 1; cursor: pointer; flex: none; }
+.fab-x:hover { background: rgba(255, 255, 255, .28); }
+.chat { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 14px; display: flex; flex-direction: column; gap: 14px; }
+.msg { display: flex; gap: 8px; align-items: flex-end; }
+.msg.user { justify-content: flex-end; }
+.av { width: 28px; height: 28px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #111; color: #fff; font-family: var(--f-data); font-size: .62rem; font-weight: 500; }
+.mcol { display: flex; flex-direction: column; gap: 5px; min-width: 0; max-width: 86%; }
+.msg.user .mcol { align-items: flex-end; }
+.bubble { padding: 10px 14px; border-radius: 16px; font-size: .9rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bubble.bot { background: var(--w-bot); color: var(--fg); border-bottom-left-radius: 6px; }
+.bubble.user { background: #f97316; color: #111; border-bottom-right-radius: 6px; }
+.time { font-size: .68rem; color: var(--muted); }
+.applybar { padding: 0 14px 10px; flex: none; }
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 14px; border-top: 1px solid var(--line); flex: none; scrollbar-width: thin; }
+.chips button { flex: none; display: flex; align-items: center; gap: 6px; font-family: var(--f-body); font-size: .8rem; font-weight: 500; padding: 7px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer; white-space: nowrap; }
+.chips button:hover { border-color: #f97316; }
+.inbar { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-top: 1px solid var(--line); flex: none; }
+.inbar input { flex: 1; min-width: 0; padding: 11px 14px; border-radius: 10px; border: 1.5px solid #f97316; background: var(--panel); color: var(--fg); font-family: var(--f-body); font-size: .92rem; }
+.inbar input:focus-visible { outline-color: #f97316; }
+.send { width: 44px; height: 44px; flex: none; border: 0; border-radius: 10px; background: #f97316; color: #111; display: grid; place-items: center; cursor: pointer; }
+.send:disabled { opacity: .6; cursor: wait; }
+.foot { text-align: center; font-size: .7rem; color: var(--muted); padding: 8px 8px 10px; border-top: 1px solid var(--line); flex: none; }
+details.issue { display: block; }
+details.issue > div { margin-top: 6px; }
+.issue summary { color: var(--fg); font-size: 0.88rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.msg-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (prefers-reduced-motion: no-preference) { .bar span { transition: width .25s ease; } }
+</style>
+</head>
+<body>
+
+<header class="hero" id="summary">
+  <div class="hero-in">
+    <span class="eyebrow">Service desk staffing · proof of concept</span>
+    <h1>24x7 Application Support<br>Staffing Model</h1>
+    <p class="hero-sub">12,000 incidents · 2,000 service requests · 50 change requests a year · high complexity</p>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections"><div class="in">
+  <a href="#sizing">Sizing</a><a href="#claude">Claude</a><a href="#roster">Roster</a><a href="#years">5-year view</a><a href="#review">Review</a>
+</div></nav>
+
+<div class="wrap">
+
+  <section id="sizing">
+    <div class="sec-head"><span class="label">Sizing</span><h2>Effort and FTE</h2><p class="note">Edit any input and every figure updates.</p></div>
+    <div class="grid2">
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>Inputs</h3><button class="btn" id="reset" type="button">Reset</button></div>
+        <div class="fields">
+          <label class="field" for="in-inc">Incidents / year<input id="in-inc" type="number" min="0" step="100"></label>
+          <label class="field" for="in-sr">Service requests / year<input id="in-sr" type="number" min="0" step="100"></label>
+          <label class="field" for="in-cr">Change requests / year<input id="in-cr" type="number" min="0" step="1"></label>
+          <label class="field" for="in-crh">Hours per change request<input id="in-crh" type="number" min="1" step="1"></label>
+          <label class="field" for="in-tpd">Tickets per person-day<input id="in-tpd" type="number" min="0.1" step="0.05"></label>
+          <label class="field" for="in-hpd">Hours per person-day<input id="in-hpd" type="number" min="1" step="0.5"></label>
+          <label class="field" for="in-ovh">Overhead multiplier<input id="in-ovh" type="number" min="1" step="0.01"></label>
+          <label class="field" for="in-cap">Productive days / FTE<input id="in-cap" type="number" min="1" step="1"></label>
+          <label class="field" for="in-l1">L1 share (%)<input id="in-l1" type="number" min="0" max="100" step="1"></label>
+          <label class="field" for="in-on">Onsite share (%)<input id="in-on" type="number" min="0" max="100" step="1"></label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel"><h3>Annual effort, person-days</h3><div class="scroll" style="margin-top:8px"><table id="t-effort"></table></div></div>
+        <div class="panel">
+          <h3>FTE by level and location</h3>
+          <div class="scroll" style="margin-top:8px"><table id="t-fte"></table></div>
+          <div class="bar" id="bar-loc" role="img" aria-label="Onsite versus offshore share" style="margin-top:14px"></div>
+          <div class="legend"><span><i class="sw" style="background:var(--onsite)"></i>Onsite</span><span><i class="sw" style="background:var(--offshore)"></i>Offshore</span></div>
+          <p class="design" id="design-line"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="claude">
+    <div class="sec-head"><span class="label">Claude assistant</span><h2>Check, explain and test the plan</h2><p><span class="status badge warn" id="ai-status">checking connection</span></p></div>
+    <div class="ai-grid">
+      <div class="panel stack">
+        <h3>Load ticket data</h3>
+        <p class="note">CSV with a type column: incident, sr or cr.</p>
+        <div class="row"><input type="file" id="csv-file" accept=".csv,text/csv"><a class="note" href="/static/sample_tickets.csv">Sample file</a></div>
+        <p class="note" id="csv-note" aria-live="polite"></p>
+      </div>
+      <div class="panel stack">
+        <h3>Validate the plan</h3>
+        <details><summary>Assumptions reviewed</summary>
+          <textarea class="box" id="assumptions" style="margin-top:8px">P1/P2 tickets are 2% of volume and are spread across all shifts including weekends.
+Only 1% of P1/P2 tickets arrive on weekends.
+Weekend duty: 2 seats per shift plus one onsite L2 on call, rotated from the offshore pool with comp-off.
+Productivity levers of 21%, 21%, 17%, 10% and 8% apply from the start of each year.
+Ticket handling time is the same for incidents and service requests.
+Ticket volumes stay flat for five years.</textarea>
+        </details>
+        <div class="row"><button class="btn primary" id="btn-validate" type="button">Run validation</button><span class="note" id="val-note" aria-live="polite"></span></div>
+        <div class="stack" id="val-out"></div>
+      </div>
+      <div class="panel stack">
+        <h3>Executive summary</h3>
+        <div class="row"><button class="btn primary" id="btn-narr" type="button">Write summary</button><span class="note" id="narr-note" aria-live="polite"></span></div>
+        <div class="summary-text" id="narr-out"></div>
+      </div>
+      <div class="panel stack">
+        <h3>Planning agent</h3>
+        <p class="note">Ask what-if questions and apply the result to the dashboard.</p>
+        <div class="row"><button class="btn primary" id="open-agent" type="button">Open the agent</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roster">
+    <div class="sec-head"><span class="label">24x7 roster</span><h2>34 people across three shifts</h2></div>
+    <div class="stats">
+      <div class="stat"><span class="big">2</span><span class="cap">seats minimum on every shift</span></div>
+      <div class="stat"><span class="big">624</span><span class="cap">weekend duty-days a year, about 2.6 FTE</span></div>
+      <div class="stat"><span class="big">~280</span><span class="cap">P1/P2 a year, one every four nights</span></div>
+    </div>
+    <div class="panel">
+      <h3>Offshore shifts, IST</h3>
+      <div class="scroll"><div style="min-width:620px"><div class="strip">
+        <div class="ticks" aria-hidden="true"></div>
+        <div class="lane" id="lane1" aria-label="S1 Day 09:00 to 18:00 IST"></div>
+        <div class="lane" id="lane2" aria-label="S2 Swing 16:00 to 01:00 IST"></div>
+        <div class="lane" id="lane3" aria-label="S3 Night 00:00 to 09:00 IST"></div>
+      </div></div></div>
+    </div>
+    <div class="panel"><div class="scroll"><table>
+      <thead><tr><th>Shift</th><th>Heads</th><th>Mix</th></tr></thead>
+      <tbody>
+        <tr><td>Onsite US / Mexico, Mon–Fri</td><td class="num">5</td><td class="num">L2 (USA 3, Mexico 2)</td></tr>
+        <tr><td>S1 Day, IST 09–18</td><td class="num">10</td><td class="num">2 L1, 8 L2</td></tr>
+        <tr><td>S2 Swing, IST 16–01</td><td class="num">9</td><td class="num">1 L1, 8 L2</td></tr>
+        <tr><td>S3 Night, IST 00–09</td><td class="num">7</td><td class="num">7 L2</td></tr>
+        <tr><td>Weekend and night relief</td><td class="num">3</td><td class="num">3 L2</td></tr>
+        <tr class="total"><td>Total</td><td class="num">34</td><td class="num">3 L1, 31 L2</td></tr>
+      </tbody>
+    </table></div></div>
+  </section>
+
+  <section id="years">
+    <div class="sec-head"><span class="label">Five-year view</span><h2>Headcount falls as automation lands</h2></div>
+    <div class="panel">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:8px" role="group" aria-label="Lever mode">
+          <button class="btn on" id="m-comp" type="button" aria-pressed="true">Compounded</button>
+          <button class="btn" id="m-cum" type="button" aria-pressed="false">Cumulative</button>
+        </div>
+        <span class="badge" id="mode-note"></span>
+      </div>
+      <div class="fields" style="flex-direction:row;flex-wrap:wrap;gap:12px 20px" id="levers"></div>
+      <div class="scroll" style="margin-top:14px"><div style="min-width:560px"><svg id="chart" viewBox="0 0 640 300" width="100%" role="img" aria-label="Headcount by year, onsite and offshore"></svg></div></div>
+      <div class="legend"><span><i class="sw" style="background:var(--onsite)"></i>Onsite</span><span><i class="sw" style="background:var(--offshore)"></i>Offshore</span></div>
+    </div>
+    <div class="panel"><div class="scroll"><table id="t-years"></table></div></div>
+    <p class="note" id="years-note"></p>
+  </section>
+
+  <section id="review">
+    <div class="sec-head"><span class="label">Review</span><h2>What to check before presenting</h2></div>
+    <div class="two">
+      <div class="panel">
+        <h3>Input checks</h3>
+        <ul class="clean warn">
+          <li>Weekend P1/P2: about 3 a year stated, about 80 by calendar share.</li>
+          <li>4 hours per ticket looks light for 90% L2.</li>
+          <li>Overhead ×1.15 versus ÷0.85 adds 0.7 FTE.</li>
+          <li>Leave may be counted in both the 240 days and the overhead.</li>
+          <li>A 21% Year 1 lever assumes gains from day one.</li>
+          <li>Change requests are 40 hours here and 16 in the other set.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Assumptions added</h3>
+        <ul class="clean">
+          <li>Service requests use the same 10/90 L1/L2 split.</li>
+          <li>Offshore is India, so shifts are in IST.</li>
+          <li>Arrivals: 35% S1, 45% S2, 20% S3.</li>
+          <li>Volumes stay flat for five years.</li>
+          <li>Minimum 2 seats on every shift.</li>
+        </ul>
+      </div>
+    </div>
+    <h3 style="margin-top:8px">Top risks</h3>
+    <div class="risks">
+      <div class="risk"><b>Aggressive levers</b><span>Headcount falls 50% by Year 5.</span></div>
+      <div class="risk"><b>Night and weekend attrition</b><span>Rotations depend on retention.</span></div>
+      <div class="risk"><b>P1 bridge time</b><span>Not in the handling time.</span></div>
+      <div class="risk"><b>Thin onsite cover</b><span>5 people for US escalations.</span></div>
+      <div class="risk"><b>Thin L1 layer</b><span>L2 does routine work.</span></div>
+    </div>
+  </section>
+
+  <footer>Modelled estimates for a proof of concept. Headcount is rounded up; FTE shown to two decimals.</footer>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="robot" viewBox="0 0 32 32"><line x1="16" y1="8" x2="16" y2="4.5" stroke="#f4f1ff" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="3.8" r="1.8" fill="#f4f1ff"/><rect x="3" y="15" width="3" height="6" rx="1.5" fill="#f4f1ff"/><rect x="26" y="15" width="3" height="6" rx="1.5" fill="#f4f1ff"/><rect x="6" y="8.5" width="20" height="17" rx="6.5" fill="#f4f1ff"/><circle cx="12" cy="16.5" r="2.4" fill="#c2410c"/><circle cx="20" cy="16.5" r="2.4" fill="#c2410c"/><path d="M12.5 21.2c1.9 1.5 5.1 1.5 7 0" fill="none" stroke="#c2410c" stroke-width="1.4" stroke-linecap="round"/></symbol></svg>
+<button class="fab" id="fab" type="button" aria-expanded="false" aria-controls="fab-panel" aria-label="Open the planning agent chat"><svg aria-hidden="true"><use href="#robot"/></svg><span class="dot"></span></button>
+<div class="fab-panel" id="fab-panel" role="dialog" aria-label="Sizing Advisor" hidden>
+  <div class="fab-head">
+    <div class="fab-av"><svg aria-hidden="true"><use href="#robot"/></svg></div>
+    <div><div class="fab-title">Sizing Advisor</div><div class="fab-sub"><i class="live"></i><span id="fab-sub-text">AI-powered · Online now</span></div></div>
+    <button class="fab-x" id="fab-close" type="button" aria-label="Close chat">&times;</button>
+  </div>
+  <div class="chat" id="chat" aria-live="polite"></div>
+  <div class="applybar row" id="apply-row" hidden><button class="btn" id="btn-apply" type="button">Apply this scenario to the dashboard</button></div>
+  <div class="chips" id="prompts">
+    <button type="button" data-q="What if incidents grow 20%?"><span>📈</span>Incidents +20%?</button>
+    <button type="button" data-q="What if the Year 1 lever is only 10%?"><span>⏱️</span>Year 1 lever 10%?</button>
+    <button type="button" data-q="Why 34 and not 31?"><span>🧮</span>Why 34, not 31?</button>
+    <button type="button" data-q="What if the onsite share is 25%?"><span>🌏</span>Onsite 25%?</button>
+    <button type="button" data-q="What if each change request takes 16 hours?"><span>🛠️</span>CR at 16 h?</button>
+  </div>
+  <form class="inbar" id="chat-form">
+    <label class="sr" for="chat-in">Your question</label>
+    <input id="chat-in" type="text" maxlength="500" autocomplete="off" placeholder="Ask about volumes, levers, headcount...">
+    <button class="send" id="chat-send" type="submit" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button>
+  </form>
+  <div class="foot">Powered by Claude AI · 24x7 Support Sizing</div>
+</div>
+<script>
+(function () {
+  var REF = { inc: 12000, sr: 2000, cr: 50, crh: 40, tpd: 2.25, hpd: 9, ovh: 1.15, cap: 240, l1: 10, on: 15 };
+  var ids = { inc: "in-inc", sr: "in-sr", cr: "in-cr", crh: "in-crh", tpd: "in-tpd", hpd: "in-hpd", ovh: "in-ovh", cap: "in-cap", l1: "in-l1", on: "in-on" };
+  var LEV = [21, 21, 17, 10, 8];
+  var mode = "comp";
+  var lev = LEV.slice();
+  var BUFFER = 3;
+
+  function f(n, d) { return Number(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function get() {
+    var o = {};
+    Object.keys(ids).forEach(function (k) {
+      var v = parseFloat(document.getElementById(ids[k]).value);
+      o[k] = isNaN(v) ? REF[k] : v;
+    });
+    return o;
+  }
+  function setInputs(o) { Object.keys(ids).forEach(function (k) { document.getElementById(ids[k]).value = o[k]; }); }
+
+  function model(p) {
+    var l1 = p.l1 / 100, on = p.on / 100;
+    var incD = p.inc / p.tpd, srD = p.sr / p.tpd, crD = p.cr * p.crh / p.hpd;
+    var rawTot = incD + srD + crD;
+    var incO = incD * p.ovh, srO = srD * p.ovh, crO = crD * p.ovh;
+    var totO = incO + srO + crO;
+    var l1pd = (incO + srO) * l1;
+    var l2pd = (incO + srO) * (1 - l1) + crO;
+    var l1fte = l1pd / p.cap, l2fte = l2pd / p.cap;
+    var total = l1fte + l2fte;
+    var onL1 = l1fte * on, onL2 = l2fte * on;
+    var offL1 = l1fte - onL1, offL2 = l2fte - onL2;
+    var design = Math.ceil(total - 1e-9);
+    var dOnL2 = Math.ceil(onL2 - 1e-9);
+    var dOffL1 = Math.ceil(offL1 - 1e-9);
+    var dOffL2 = Math.max(0, design - dOnL2 - dOffL1);
+    return { incD: incD, srD: srD, crD: crD, rawTot: rawTot, incO: incO, srO: srO, crO: crO, totO: totO,
+      l1pd: l1pd, l2pd: l2pd, l1fte: l1fte, l2fte: l2fte, total: total, onL1: onL1, onL2: onL2, offL1: offL1, offL2: offL2,
+      design: design, dOnL2: dOnL2, dOffL1: dOffL1, dOffL2: dOffL2, onFte: onL1 + onL2, offFte: offL1 + offL2 };
+  }
+
+  function isRef(p) { return Object.keys(REF).every(function (k) { return p[k] === REF[k]; }); }
+
+  function renderKpis(p, m) {
+    var tickets = p.inc + p.sr;
+    var h = "";
+    h += '<div class="kpi hot"><span class="label">Recommended headcount</span><span class="v">' + (isRef(p) ? 34 : m.design + BUFFER) + '</span><span class="s">' + "incl. 3 FTE relief buffer" + '</span></div>';
+    h += '<div class="kpi"><span class="label">Pure effort</span><span class="v">' + f(m.total, 1) + '</span><span class="s">FTE of pure effort</span></div>';
+    h += '<div class="kpi"><span class="label">Annual effort</span><span class="v">' + f(m.totO, 0) + '</span><span class="s">person-days incl. ' + f((p.ovh - 1) * 100, 0) + '% overhead</span></div>';
+    h += '<div class="kpi"><span class="label">Year 5 headcount</span><span class="v" id="k-y5">–</span><span class="s">after automation</span></div>';
+    h += '<div class="kpi"><span class="label">Ticket volume</span><span class="v">' + f(tickets, 0) + '</span><span class="s">incidents + SRs + ' + f(p.cr, 0) + ' CRs</span></div>';
+    document.getElementById("kpis").innerHTML = h;
+  }
+
+  function renderEffort(p, m) {
+    var h = '<thead><tr><th>Stream</th><th>Raw</th><th>×' + f(p.ovh, 2) + ' overhead</th></tr></thead><tbody>';
+    h += '<tr><td>Incidents (' + f(p.inc, 0) + ' ÷ ' + f(p.tpd, 2) + ')</td><td class="num">' + f(m.incD, 1) + '</td><td class="num">' + f(m.incO, 1) + '</td></tr>';
+    h += '<tr><td>Service requests (' + f(p.sr, 0) + ' ÷ ' + f(p.tpd, 2) + ')</td><td class="num">' + f(m.srD, 1) + '</td><td class="num">' + f(m.srO, 1) + '</td></tr>';
+    h += '<tr><td>Change requests (' + f(p.cr, 0) + ' × ' + f(p.crh, 0) + ' h ÷ ' + f(p.hpd, 0) + ')</td><td class="num">' + f(m.crD, 1) + '</td><td class="num">' + f(m.crO, 1) + '</td></tr>';
+    h += '<tr class="total"><td>Total</td><td class="num">' + f(m.rawTot, 1) + '</td><td class="num">' + f(m.totO, 1) + '</td></tr></tbody>';
+    document.getElementById("t-effort").innerHTML = h;
+  }
+
+  function renderFte(p, m) {
+    var h = '<thead><tr><th></th><th>L1</th><th>L2</th><th>Total</th></tr></thead><tbody>';
+    h += '<tr><td>Person-days</td><td class="num">' + f(m.l1pd, 1) + '</td><td class="num">' + f(m.l2pd, 1) + '</td><td class="num">' + f(m.l1pd + m.l2pd, 1) + '</td></tr>';
+    h += '<tr><td>FTE (÷ ' + f(p.cap, 0) + ')</td><td class="num">' + f(m.l1fte, 2) + '</td><td class="num">' + f(m.l2fte, 2) + '</td><td class="num">' + f(m.total, 2) + '</td></tr>';
+    h += '<tr><td>Onsite</td><td class="num">' + f(m.onL1, 2) + '</td><td class="num">' + f(m.onL2, 2) + '</td><td class="num">' + f(m.onFte, 2) + '</td></tr>';
+    h += '<tr class="total"><td>Offshore</td><td class="num">' + f(m.offL1, 2) + '</td><td class="num">' + f(m.offL2, 2) + '</td><td class="num">' + f(m.offFte, 2) + '</td></tr></tbody>';
+    document.getElementById("t-fte").innerHTML = h;
+    var on = m.total ? (m.onFte / m.total) * 100 : 0;
+    document.getElementById("bar-loc").innerHTML = '<span style="width:' + on + '%;background:var(--onsite)"></span><span style="width:' + (100 - on) + '%;background:var(--offshore)"></span>';
+    document.getElementById("design-line").innerHTML = '<strong>Rounded design:</strong> onsite <span class="num">' + m.dOnL2 + '</span> L2; offshore <span class="num">' + m.dOffL1 + '</span> L1 and <span class="num">' + m.dOffL2 + '</span> L2. That is <span class="num">' + (m.dOnL2 + m.dOffL1 + m.dOffL2) + '</span> FTE.';
+  }
+
+  function yearsData(m, p) {
+    var prod = 1, out = [];
+    var cum = 0;
+    for (var i = 0; i < 5; i++) {
+      var factor;
+      if (mode === "comp") { prod *= (1 - lev[i] / 100); factor = prod; }
+      else { cum = Math.min(100, cum + lev[i]); factor = Math.max(0, 1 - cum / 100); }
+      var work = m.total * factor;
+      var hc = Math.ceil(work + BUFFER - 1e-9);
+      var onsite = Math.max(3, Math.round(hc * p.on / 100));
+      out.push({ y: i + 1, red: (1 - factor) * 100, work: work, buf: work + BUFFER, hc: hc, on: onsite, off: hc - onsite });
+    }
+    return out;
+  }
+
+  function renderLevers() {
+    var h = "";
+    for (var i = 0; i < 5; i++) {
+      h += '<label class="field" style="flex-direction:column;align-items:flex-start;gap:4px" for="lv' + i + '"><span class="label">Y' + (i + 1) + ' lever %</span><input id="lv' + i + '" type="number" min="0" max="100" step="1" value="' + lev[i] + '" style="width:88px"></label>';
+    }
+    document.getElementById("levers").innerHTML = h;
+    for (var j = 0; j < 5; j++) {
+      (function (k) {
+        document.getElementById("lv" + k).addEventListener("input", function (e) {
+          var v = parseFloat(e.target.value);
+          lev[k] = isNaN(v) ? 0 : Math.max(0, Math.min(100, v));
+          update();
+        });
+      })(j);
+    }
+  }
+
+  function renderYears(p, m) {
+    var d = yearsData(m, p);
+    var h = '<thead><tr><th>Year</th><th>Lever</th><th>Workload FTE</th><th>+ buffer</th><th>Headcount</th><th>Onsite / offshore</th></tr></thead><tbody>';
+    d.forEach(function (r, i) {
+      h += '<tr' + (i === 4 ? ' class="total"' : '') + '><td>Y' + r.y + '</td><td class="num">' + f(lev[r.y - 1], 0) + '%</td><td class="num">' + f(r.work, 1) + '</td><td class="num">' + f(r.buf, 1) + '</td><td class="num">' + r.hc + '</td><td class="num">' + r.on + ' / ' + r.off + '</td></tr>';
+    });
+    h += '</tbody>';
+    document.getElementById("t-years").innerHTML = h;
+
+    var W = 640, H = 300, L = 40, R = 16, T = 24, B = 34;
+    var max = Math.max.apply(null, d.map(function (r) { return r.hc; }).concat([m.design + BUFFER]));
+    var top = Math.ceil((max + 1) / 5) * 5;
+    var ph = H - T - B, pw = W - L - R;
+    var y = function (v) { return T + ph - (v / top) * ph; };
+    var s = "";
+    for (var g = 0; g <= top; g += 5) {
+      s += '<line class="grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(g) + '" y2="' + y(g) + '"/><text x="' + (L - 8) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + '</text>';
+    }
+    var slot = pw / 5, bw = Math.min(64, slot * 0.55);
+    d.forEach(function (r, i) {
+      var x = L + slot * i + (slot - bw) / 2;
+      s += '<rect class="b-off" x="' + x + '" y="' + y(r.hc) + '" width="' + bw + '" height="' + (y(r.on) - y(r.hc)) + '"/>';
+      s += '<rect class="b-on" x="' + x + '" y="' + y(r.on) + '" width="' + bw + '" height="' + (y(0) - y(r.on)) + '"/>';
+      s += '<text class="val" x="' + (x + bw / 2) + '" y="' + (y(r.hc) - 6) + '" text-anchor="middle">' + r.hc + '</text>';
+      s += '<text x="' + (x + bw / 2) + '" y="' + (H - 12) + '" text-anchor="middle">Y' + r.y + '</text>';
+    });
+    document.getElementById("chart").innerHTML = s;
+    var k = document.getElementById("k-y5");
+    if (k) k.textContent = d[4].hc;
+
+    var tot = d[4].red;
+    document.getElementById("mode-note").textContent = "Y5 workload reduction " + f(tot, 0) + "%";
+    document.getElementById("years-note").textContent = mode === "comp"
+      ? "Compounded levers cut workload by about 57% by Year 5."
+      : "Cumulative levers reach 77% by Year 5, which is unrealistic.";
+  }
+
+  function update() {
+    var p = get();
+    var m = model(p);
+    renderKpis(p, m);
+    renderEffort(p, m);
+    renderFte(p, m);
+    renderYears(p, m);
+  }
+
+  function setMode(next) {
+    mode = next;
+    var a = document.getElementById("m-comp"), b = document.getElementById("m-cum");
+    a.classList.toggle("on", next === "comp"); b.classList.toggle("on", next === "cum");
+    a.setAttribute("aria-pressed", next === "comp"); b.setAttribute("aria-pressed", next === "cum");
+    update();
+  }
+
+  // 24h IST shift strip
+  (function () {
+    var ticks = document.querySelector(".ticks");
+    var t = "";
+    for (var i = 0; i < 24; i++) t += "<span>" + (i < 10 ? "0" : "") + i + "</span>";
+    ticks.innerHTML = t;
+    function seg(id, from, to, cls, label) {
+      var lane = document.getElementById(id);
+      var parts = to > from ? [[from, to]] : [[from, 24], [0, to]];
+      parts.forEach(function (r, idx) {
+        var d = document.createElement("div");
+        d.className = "seg " + cls;
+        d.style.left = (r[0] / 24 * 100) + "%";
+        d.style.width = ((r[1] - r[0]) / 24 * 100) + "%";
+        d.textContent = idx === 0 ? label : "";
+        lane.appendChild(d);
+      });
+    }
+    seg("lane1", 9, 18, "s1", "S1 Day · 10 heads");
+    seg("lane2", 16, 1, "s2", "S2 Swing · 9 heads");
+    seg("lane3", 0, 9, "s3", "S3 Night · 7 heads");
+  })();
+
+  setInputs(REF);
+  Object.keys(ids).forEach(function (k) { document.getElementById(ids[k]).addEventListener("input", update); });
+  document.getElementById("reset").addEventListener("click", function () { setInputs(REF); lev = LEV.slice(); renderLevers(); update(); });
+  document.getElementById("m-comp").addEventListener("click", function () { setMode("comp"); });
+  document.getElementById("m-cum").addEventListener("click", function () { setMode("cum"); });
+  window.__sizing = {
+    get: get, setInputs: setInputs, update: update,
+    getLevers: function () { return lev.slice(); }, getMode: function () { return mode; },
+    setLevers: function (a) { if (a && a.length === 5) { lev = a.map(Number); renderLevers(); update(); } },
+    setMode: setMode
+  };
+  renderLevers();
+  update();
+})();
+</script>
+<script>
+(function () {
+  var S = window.__sizing;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function post(path, body) {
+    return fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.detail || "Request failed (" + r.status + ")"); return j; }); });
+  }
+  function scenario() { return { params: S.get(), levers: S.getLevers(), mode: S.getMode() }; }
+  function busy(btn, on, label) { btn.disabled = on; if (label) btn.textContent = label; }
+
+  fetch("/api/health").then(function (r) { return r.json(); }).then(function (h) {
+    var s = $("ai-status"), sub = document.getElementById("fab-sub-text");
+    if (h.demo) { s.className = "status badge warn"; s.textContent = "Demo mode · saved responses"; if (sub) sub.textContent = "Demo mode · saved responses"; }
+    else { s.className = "status badge"; s.textContent = "Claude connected · " + h.model; }
+  }).catch(function () { $("ai-status").textContent = "server not reachable"; });
+
+  // CSV upload
+  $("csv-file").addEventListener("change", function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var fd = new FormData(); fd.append("file", f);
+    $("csv-note").textContent = "Reading file...";
+    fetch("/api/upload-csv", { method: "POST", body: fd })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.detail || "Upload failed"); return j; }); })
+      .then(function (j) {
+        var cur = S.get();
+        cur.inc = j.annual.inc; cur.sr = j.annual.sr; cur.cr = j.annual.cr;
+        S.setInputs(cur); S.update();
+        $("csv-note").textContent = j.rows.toLocaleString() + " rows" + (j.annualised ? " over " + j.span_days + " days, annualised to " : " read as ") +
+          j.annual.inc.toLocaleString() + " incidents, " + j.annual.sr.toLocaleString() + " service requests and " + j.annual.cr.toLocaleString() + " change requests per year.";
+      })
+      .catch(function (err) { $("csv-note").textContent = err.message; });
+  });
+
+  // Validation
+  $("btn-validate").addEventListener("click", function () {
+    var b = $("btn-validate"); busy(b, true); $("val-note").textContent = "Claude is reviewing..."; $("val-out").textContent = "";
+    var s = scenario(); s.assumptions = $("assumptions").value;
+    post("/api/validate", s).then(function (j) {
+      var out = $("val-out"); out.textContent = "";
+      out.appendChild(el("p", null, j.review.verdict));
+      (j.review.issues || []).forEach(function (i) {
+        var box = el("details", "issue"), t = el("summary", "t");
+        t.appendChild(el("span", "sev " + i.severity, i.severity)); t.appendChild(el("span", null, i.title));
+        box.appendChild(t); box.appendChild(el("div", null, i.detail)); box.appendChild(el("div", "fix", "Fix: " + i.suggestion));
+        out.appendChild(box);
+      });
+      $("val-note").textContent = (j.review.issues || []).length + " issues found" + (j.demo ? " · demo response" : "");
+    }).catch(function (err) { $("val-note").textContent = err.message; }).then(function () { busy(b, false); });
+  });
+
+  // Narrative
+  $("btn-narr").addEventListener("click", function () {
+    var b = $("btn-narr"); busy(b, true); $("narr-note").textContent = "Writing...";
+    post("/api/narrative", scenario()).then(function (j) { $("narr-out").textContent = j.text; $("narr-note").textContent = j.demo ? "Demo response" : ""; })
+      .catch(function (err) { $("narr-note").textContent = err.message; }).then(function () { busy(b, false); });
+  });
+
+  // Agent
+  var history = [], pending = null;
+  function bubble(kind, text) {
+    var row = el("div", "msg " + kind);
+    if (kind === "bot") row.appendChild(el("div", "av", "AI"));
+    var col = el("div", "mcol"), b = el("div", "bubble " + kind, text);
+    col.appendChild(b); col.appendChild(el("div", "time", "Just now")); row.appendChild(col);
+    $("chat").appendChild(row); $("chat").scrollTop = $("chat").scrollHeight; return b;
+  }
+  window.__chatBubble = bubble;
+  function ask(q) {
+    if (!q) return;
+    bubble("user", q); history.push({ role: "user", content: q });
+    var wait = bubble("bot", "Thinking..."); busy($("chat-send"), true); $("apply-row").hidden = true;
+    post("/api/agent", { messages: history, scenario: scenario() }).then(function (j) {
+      wait.textContent = j.reply || "No answer returned.";
+      if ((j.trace && j.trace.length) || j.demo) {
+        var tools = el("div", "msg-tools"); var seen = {};
+        if (j.demo) tools.appendChild(el("span", "chip", "demo response"));
+        (j.trace || []).forEach(function (t) { if (!seen[t.tool]) { seen[t.tool] = 1; tools.appendChild(el("span", "chip", "used " + t.tool)); } });
+        wait.parentNode.insertBefore(tools, wait.parentNode.lastChild);
+      }
+      history.push({ role: "assistant", content: j.reply || "" });
+      pending = j.scenario; $("apply-row").hidden = !pending;
+      $("chat").scrollTop = $("chat").scrollHeight;
+    }).catch(function (err) { wait.textContent = err.message; history.pop(); }).then(function () { busy($("chat-send"), false); });
+  }
+  $("chat-form").addEventListener("submit", function (e) { e.preventDefault(); var v = $("chat-in").value.trim(); $("chat-in").value = ""; ask(v); });
+  $("prompts").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b && b.dataset.q) ask(b.dataset.q); });
+  $("btn-apply").addEventListener("click", function () {
+    if (!pending) return;
+    S.setInputs(pending.params); S.setMode(pending.mode); S.setLevers(pending.levers); S.update();
+    $("apply-row").hidden = true; document.getElementById("sizing").scrollIntoView({ behavior: "smooth" });
+  });
+})();
+</script>
+<script>
+(function () {
+  var fab = document.getElementById("fab"), panel = document.getElementById("fab-panel"), chat = document.getElementById("chat"), greeted = false;
+  function setOpen(on) {
+    panel.hidden = !on; fab.setAttribute("aria-expanded", on ? "true" : "false");
+    fab.style.display = on && window.innerWidth < 520 ? "none" : "grid";
+    if (on) {
+      if (!greeted) { greeted = true; window.__chatBubble("bot", "Hi! 👋 I'm the Sizing Advisor, an AI planning agent. I can run what-if scenarios on ticket volumes, automation levers, onsite share and more. What would you like to explore? 📊"); }
+      setTimeout(function () { document.getElementById("chat-in").focus(); }, 30);
+    }
+  }
+  fab.addEventListener("click", function () { setOpen(true); });
+  document.getElementById("fab-close").addEventListener("click", function () { setOpen(false); });
+  document.getElementById("open-agent").addEventListener("click", function () { setOpen(true); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) setOpen(false); });
+})();
+</script>
+</body>
+</html>
